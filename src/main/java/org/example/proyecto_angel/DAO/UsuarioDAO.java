@@ -39,8 +39,16 @@ public class UsuarioDAO {
         PreparedStatement sentencia = conexion.prepareStatement(sql);
         sentencia.setString(1, usuario.getNombre());
         sentencia.setString(2, usuario.getContrasenia());
-        sentencia.setString(3, coche.getModelo());
-        sentencia.setString(4, coche.getTipo());
+        sentencia.executeUpdate();
+
+    }
+
+    public void eliminarUsuario(Usuario usuario)throws SQLException {
+
+        String sql = "DELETE FROM Proyecto WHERE matricula = ?";
+
+        PreparedStatement sentencia = conexion.prepareStatement(sql);
+        sentencia.setString(1, usuario.getNombre());
         sentencia.executeUpdate();
 
     }
