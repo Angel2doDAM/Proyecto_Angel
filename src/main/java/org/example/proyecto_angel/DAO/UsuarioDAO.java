@@ -1,13 +1,13 @@
 package org.example.proyecto_angel.DAO;
 
 import org.example.proyecto_angel.clases.Usuario;
+import org.example.proyecto_angel.util.AlertUtils;
 import org.example.proyecto_angel.util.R;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 public class UsuarioDAO {
@@ -34,23 +34,84 @@ public class UsuarioDAO {
 
     public void guardarUsuario (Usuario usuario) throws SQLException {
 
-        String sql = "INSERT INTO Proyecto (nombre, contrasenia) VALUES (?, ?)";
+        List<Usuario> usuariosComp = obtenerUsuarios();
 
-        PreparedStatement sentencia = conexion.prepareStatement(sql);
-        sentencia.setString(1, usuario.getNombre());
-        sentencia.setString(2, usuario.getContrasenia());
-        sentencia.executeUpdate();
+        boolean encontrado=false;
 
+        for (Usuario usu1 : usuariosComp){
+            if (usu1.getNombre().equals(usuario.getNombre())){
+                encontrado=true;
+                AlertUtils.mostrarError("Usuario creado con anterioridad");
+            }
+        }
+        if(!encontrado) {
+            String sql = "INSERT INTO usuarios (nombre, contrasenia) VALUES (?, ?)";
+
+            PreparedStatement sentencia = conexion.prepareStatement(sql);
+            sentencia.setString(1, usuario.getNombre());
+            sentencia.setString(2, usuario.getContrasenia());
+            sentencia.executeUpdate();
+            AlertUtils.mostrarAcierto("Usuario guardado correctamente");
+        }
     }
 
-    public void eliminarUsuario(Usuario usuario)throws SQLException {
+    public boolean comprobarInicio(Usuario usuario) throws SQLException {
 
-        String sql = "DELETE FROM Proyecto WHERE matricula = ?";
+        List<Usuario> usuariosComp = obtenerUsuarios();
 
-        PreparedStatement sentencia = conexion.prepareStatement(sql);
-        sentencia.setString(1, usuario.getNombre());
-        sentencia.executeUpdate();
+        boolean encontrado=false;
 
+        for (Usuario usu1 : usuariosComp){
+            if (usu1.getNombre().equals(usuario.getNombre()) && usu1.getContrasenia().equals(usuario.getContrasenia())){
+                encontrado = true;
+                AlertUtils.mostrarAcierto("WAY");
+            }
+        }
+        if (!encontrado){
+            AlertUtils.mostrarError("El usuari con el que intenta iniciar sesión no existe aún.\n " +
+                    "Permitame proponerle crear al usuario.");
+        }
+        return encontrado;
     }
 
+    public List<Usuario> obtenerUsuarios() throws SQLException {
+
+        List<Usuario> usuarios = new ArrayList<>();
+        String sql = "SELECT * FROM usuarios";
+
+        PreparedStatement sentencia = conexion.prepareStatement(sql);
+        ResultSet resultado = sentencia.executeQuery();
+        while (resultado.next()) {
+            Usuario usuario1 = new Usuario();
+            usuario1.setId(resultado.getInt(1));
+            usuario1.setNombre(resultado.getString(2));
+            usuario1.setContrasenia(resultado.getString(3));
+
+            usuarios.add(usuario1);
+        }
+        return usuarios;
+    }
+
+    public void eliminarUsuario(String nombreUsu)throws SQLException {
+
+        List<Usuario> usuariosComp = obtenerUsuarios();
+
+        boolean encontrado=false;
+
+        for (Usuario usu1 : usuariosComp){
+            if (usu1.getNombre().equals(nombreUsu)){
+                encontrado=true;
+                String sql = "DELETE FROM usuarios WHERE nombre = ?";
+
+                PreparedStatement sentencia = conexion.prepareStatement(sql);
+                sentencia.setString(1, nombreUsu);
+                sentencia.executeUpdate();
+
+                AlertUtils.mostrarAcierto("El usuario ha sido eliminado de la base de datos");
+            }
+        }
+        if (!encontrado){
+            AlertUtils.mostrarError("El nombre ingresado no tiene asociado ningún usuario");
+        }
+    }
 }

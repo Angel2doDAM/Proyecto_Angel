@@ -37,7 +37,7 @@ public class HelloController {
     }
 
     @FXML
-    public void OnEntrarClic(javafx.event.ActionEvent actionEvent) {
+    public void OnGuardarClic(javafx.event.ActionEvent actionEvent) {
         try {
             // Verificar que los campos no estén vacíos
             if (usuarioText.getText().isEmpty() || contraText.getText().isEmpty()) {
@@ -49,7 +49,9 @@ public class HelloController {
 
                 // Guardar el usuario en la base de datos
                 usuarioDAO.guardarUsuario(usu1);
-                AlertUtils.mostrarError("Usuario guardado correctamente");
+
+                usuarioText.setText("");
+                contraText.setText("");
             }
         } catch (SQLException e) {
             // Manejar la excepción SQL mostrando un mensaje al usuario
@@ -58,16 +60,32 @@ public class HelloController {
         }
     }
 
+    @FXML
+    public void OnEntrarClic(javafx.event.ActionEvent actionEvent) throws SQLException {
+        usu1.setNombre(usuarioText.getText());
+        usu1.setContrasenia(contraText.getText());
+        if (usuarioDAO.comprobarInicio(usu1)){
+            //Aquí deberia cambiar de stage a el siguiente formulario o una tabla yo q se
+        }
+    }
 
     @FXML
+    public void OnLimpiarClic(javafx.event.ActionEvent actionEvent) throws SQLException {
+        usuarioText.setText("");
+        contraText.setText("");
+    }
+
+
+    /*@FXML
     void OnBorrarClic(javafx.event.ActionEvent actionEvent) throws SQLException {
         if (usuarioText.getText().isEmpty()){
             AlertUtils.mostrarError("EY tio, tienes que poner el nombre de usuario");
         } else {
-            usu1.setNombre(usuarioText.getText());
-            usuarioDAO.eliminarUsuario(usu1);
+            String NombreUsu=usuarioText.getText();
         }
-    }
+        usuarioDAO.eliminarUsuario(usuarioText.getText());
+
+    }*/
 
     @FXML
     void OnSalirClic(javafx.event.ActionEvent actionEvent) throws SQLException {
