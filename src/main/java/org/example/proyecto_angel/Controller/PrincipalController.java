@@ -78,7 +78,7 @@ public class PrincipalController implements Initializable {
         try {
             usuarioDAO.conectar();
         } catch (SQLException sqle) {
-            AlertUtils.mostrarError("Error al conectar con la base de datos");
+            AlertUtils.mostrarError("Error al conectar con la base de datos.");
         } catch (ClassNotFoundException cnfe) {
             AlertUtils.mostrarError("Error al iniciar la aplicación");
         } catch (IOException ioe) {
