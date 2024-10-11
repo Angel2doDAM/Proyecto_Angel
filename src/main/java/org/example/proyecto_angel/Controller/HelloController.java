@@ -80,7 +80,7 @@ public class HelloController {
                     usuarioDAO.desconectar();
                     cambioEscena("PantallaPrincipal.fxml", Fondo_registro);
                 } else { //Si no es administrador:
-                    AlertUtils.mostrarError("No eres nadie");
+                    cambioEscena("Tienda.fxml", Fondo_registro);
                 }
             }
         } catch (SQLException e) {
