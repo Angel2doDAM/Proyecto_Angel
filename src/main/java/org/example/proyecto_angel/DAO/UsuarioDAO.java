@@ -60,18 +60,19 @@ public class UsuarioDAO {
         List<Usuario> usuariosComp = obtenerUsuarios();
 
         boolean encontrado=false;
+        boolean admin=false;
 
         for (Usuario usu1 : usuariosComp){
             if (usu1.getNombre().equals(usuario.getNombre()) && usu1.getContrasenia().equals(usuario.getContrasenia())){
                 encontrado = true;
-                AlertUtils.mostrarAcierto("WAY");
             }
         }
-        if (!encontrado){
-            AlertUtils.mostrarError("El usuari con el que intenta iniciar sesión no existe aún.\n " +
-                    "Permitame proponerle crear al usuario.");
+        if (encontrado){
+            if (usuario.getNombre().equals("root") || usuario.getNombre().equals("admin")){
+                admin=true;
+            }
         }
-        return encontrado;
+        return admin;
     }
 
     public List<Usuario> obtenerUsuarios() throws SQLException {
@@ -113,5 +114,17 @@ public class UsuarioDAO {
         if (!encontrado){
             AlertUtils.mostrarError("El nombre ingresado no tiene asociado ningún usuario");
         }
+    }
+
+    public void actualizarUsuario(String nombreUsuario, String contraUsuario, String nombreViejo) throws SQLException {
+
+        String sql = "UPDATE usuarios SET nombre = ?, contrasenia = ? WHERE nombre = ?";
+
+        PreparedStatement sentencia = conexion.prepareStatement(sql);
+        sentencia.setString(1, nombreUsuario);
+        sentencia.setString(2, contraUsuario);
+        sentencia.setString(3, nombreViejo);
+        sentencia.executeUpdate();
+
     }
 }

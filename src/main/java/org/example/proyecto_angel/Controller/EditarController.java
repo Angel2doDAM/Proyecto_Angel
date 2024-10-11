@@ -1,22 +1,26 @@
 package org.example.proyecto_angel.Controller;
 
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import org.example.proyecto_angel.DAO.UsuarioDAO;
 import org.example.proyecto_angel.clases.Usuario;
 import org.example.proyecto_angel.util.AlertUtils;
+import org.example.proyecto_angel.util.ChangeStage;
+
+import java.io.IOException;
+import java.net.URL;
+import java.sql.SQLException;
+import java.util.ResourceBundle;
+
 import static org.example.proyecto_angel.util.ChangeStage.cambioEscena;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.io.IOException;
-import java.sql.SQLException;
+
+public class EditarController {
 
 
-public class HelloController {
-
-
+    public AnchorPane Fondo_Editar;
     @FXML
     private AnchorPane Fondo_registro;
 
@@ -28,8 +32,10 @@ public class HelloController {
 
     UsuarioDAO usuarioDAO = new UsuarioDAO();
     Usuario usu1 = new Usuario();
+    String nombreViejo;
+    PrincipalController controller;
 
-    public HelloController() {
+    public EditarController() {
         try {
             usuarioDAO.conectar();
         } catch (SQLException sqle) {
@@ -55,40 +61,15 @@ public class HelloController {
                 usu1.setContrasenia(contraText.getText());
 
                 // Guardar el usuario en la base de datos
-                usuarioDAO.guardarUsuario(usu1);
-
-                usuarioText.setText("");
-                contraText.setText("");
+                usuarioDAO.actualizarUsuario(usu1.getNombre(), usu1.getContrasenia(), nombreViejo);
+                AlertUtils.mostrarAcierto("El usuario ha sido actualizado correctamente");
+                controller.cargarDatos();
+                ChangeStage.cerrarEscena(Fondo_Editar);
             }
         } catch (SQLException e) {
             // Manejar la excepción SQL mostrando un mensaje al usuario
             AlertUtils.mostrarError("Ocurrió un error al guardar el usuario: " + e.getMessage());
             e.printStackTrace();
-        }
-    }
-
-    @FXML
-    public void OnEntrarClic(javafx.event.ActionEvent actionEvent) throws SQLException {
-        try {
-            // Verificar que los campos no estén vacíos
-            if (usuarioText.getText().isEmpty() || contraText.getText().isEmpty()) {
-                AlertUtils.mostrarError("Por favor, completa ambos campos");
-            } else {
-                usu1.setNombre(usuarioText.getText());
-                usu1.setContrasenia(contraText.getText());
-                if (usuarioDAO.comprobarInicio(usu1)){ //Compruebo si el usuario es administrador del sistema
-                    usuarioDAO.desconectar();
-                    cambioEscena("PantallaPrincipal.fxml", Fondo_registro);
-                } else { //Si no es administrador:
-                    AlertUtils.mostrarError("No eres nadie");
-                }
-            }
-        } catch (SQLException e) {
-            // Manejar la excepción SQL mostrando un mensaje al usuario
-            AlertUtils.mostrarError("Ocurrió un error al guardar el usuario: " + e.getMessage());
-            e.printStackTrace();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
     }
 
@@ -100,6 +81,14 @@ public class HelloController {
 
     @FXML
     void OnSalirClic(javafx.event.ActionEvent actionEvent) throws SQLException {
-        System.exit(0);
+        ChangeStage.cerrarEscena(Fondo_Editar);
+    }
+
+    @FXML
+    public void cargarDatos(Usuario usu1, PrincipalController controller){
+        usuarioText.setText(usu1.getNombre());
+        contraText.setText(usu1.getContrasenia());
+        nombreViejo = usu1.getNombre();
+        this.controller = controller;
     }
 }

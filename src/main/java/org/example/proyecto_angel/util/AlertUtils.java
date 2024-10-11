@@ -11,7 +11,7 @@ public class AlertUtils {
     }
 
     public static void mostrarAcierto(String mensaje) {
-        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
         alerta.setContentText(mensaje);
         alerta.show();
     }
