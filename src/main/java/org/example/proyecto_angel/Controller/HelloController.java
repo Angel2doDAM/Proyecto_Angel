@@ -6,6 +6,8 @@ import javafx.scene.layout.AnchorPane;
 import org.example.proyecto_angel.DAO.UsuarioDAO;
 import org.example.proyecto_angel.clases.Usuario;
 import org.example.proyecto_angel.util.AlertUtils;
+import org.example.proyecto_angel.util.ChangeStage;
+
 import static org.example.proyecto_angel.util.ChangeStage.cambioEscena;
 
 import java.awt.*;
@@ -28,6 +30,8 @@ public class HelloController {
 
     UsuarioDAO usuarioDAO = new UsuarioDAO();
     Usuario usu1 = new Usuario();
+
+    TiendaController controller;
 
     public HelloController() {
         try {
@@ -76,16 +80,22 @@ public class HelloController {
             } else {
                 usu1.setNombre(usuarioText.getText());
                 usu1.setContrasenia(contraText.getText());
-                if (usuarioDAO.comprobarInicio(usu1)){ //Compruebo si el usuario es administrador del sistema
+                if (usuarioDAO.comprobarInicio(usu1)==2){ //Compruebo si el usuario es administrador del sistema
                     usuarioDAO.desconectar();
                     cambioEscena("PantallaPrincipal.fxml", Fondo_registro);
-                } else { //Si no es administrador:
-                    cambioEscena("Tienda.fxml", Fondo_registro);
+                } else if (usuarioDAO.comprobarInicio(usu1)==1) { //Si no es administrador:
+                    usuarioDAO.desconectar();
+
+                    controller = ChangeStage.cambioEscena2("Tienda.fxml", Fondo_registro);
+                    controller.cargarDatos();
+
+                } else if (usuarioDAO.comprobarInicio(usu1)==0){ //Si no existe ese usuario:
+                    AlertUtils.mostrarError("Usuario o contraseña erroneos");
                 }
             }
         } catch (SQLException e) {
             // Manejar la excepción SQL mostrando un mensaje al usuario
-            AlertUtils.mostrarError("Ocurrió un error al guardar el usuario: " + e.getMessage());
+            AlertUtils.mostrarError("Ocurrió un error al entrar: " + e.getMessage());
             e.printStackTrace();
         } catch (IOException e) {
             throw new RuntimeException(e);

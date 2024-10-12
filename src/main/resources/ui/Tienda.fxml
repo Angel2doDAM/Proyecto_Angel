@@ -2,41 +2,55 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="TiendaFondo" prefHeight="488.0" prefWidth="794.0" style="-fx-background-color: #039765;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.proyecto_angel.Controller.TiendaController">
    <children>
-      <TableView layoutX="29.0" layoutY="29.0" prefHeight="329.0" prefWidth="398.0" style="-fx-background-color: #99E89D;">
+      <TableView fx:id="TableCubo" layoutX="29.0" layoutY="29.0" prefHeight="329.0" prefWidth="398.0" style="-fx-background-color: #99E89D;">
         <columns>
           <TableColumn fx:id="ColumCubo" prefWidth="137.0" text="Cubo" />
           <TableColumn fx:id="ColumTipo" prefWidth="129.0" text="Tipo" />
             <TableColumn fx:id="ColumPrecio" prefWidth="131.0" text="Precio" />
         </columns>
       </TableView>
-      <ComboBox fx:id="ChuseCubo" layoutX="533.0" layoutY="64.0" prefWidth="150.0" />
-      <Button layoutX="553.0" layoutY="148.0" mnemonicParsing="false" onAction="#OnAniadirClic" text="AÑADIR">
+      <ComboBox fx:id="ChuseCubo" layoutX="453.0" layoutY="116.0" prefWidth="150.0" />
+      <Button layoutX="645.0" layoutY="106.0" mnemonicParsing="false" onAction="#OnAniadirClic" text="AÑADIR">
          <font>
             <Font size="22.0" />
          </font>
       </Button>
-      <TextArea fx:id="TextoMostrar" layoutX="24.0" layoutY="383.0" prefHeight="72.0" prefWidth="639.0" promptText="Carro vacío">
+      <ImageView fitHeight="186.0" fitWidth="215.0" layoutX="446.0" layoutY="188.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/Tienda.png" />
+         </image>
+      </ImageView>
+      <TextArea fx:id="TextoMostrar" layoutX="24.0" layoutY="371.0" prefHeight="84.0" prefWidth="639.0" promptText="Carro vacío">
          <font>
             <Font name="Fugaz One" size="16.0" />
          </font>
       </TextArea>
-      <Button layoutX="672.0" layoutY="396.0" mnemonicParsing="false" onAction="#OnComprarClic" text="Comprar">
+      <Button layoutX="672.0" layoutY="390.0" mnemonicParsing="false" onAction="#OnComprarClic" text="Comprar">
          <font>
             <Font size="22.0" />
          </font>
       </Button>
-      <Button layoutX="449.0" layoutY="312.0" mnemonicParsing="false" onAction="#OnSalirClic" text="Salir">
+      <Button layoutX="711.0" layoutY="312.0" mnemonicParsing="false" onAction="#OnSalirClic" text="Salir">
          <font>
             <Font size="22.0" />
          </font>
       </Button>
+      <Label layoutX="482.0" layoutY="22.0" text="Rubik's Shell" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="38.0" />
+         </font>
+      </Label>
+      <Label fx:id="TotalActual" layoutX="24.0" layoutY="465.0" text="Total actual:" />
    </children>
 </AnchorPane>

@@ -55,7 +55,7 @@ public class UsuarioDAO {
         }
     }
 
-    public boolean comprobarInicio(Usuario usuario) throws SQLException {
+    public int comprobarInicio(Usuario usuario) throws SQLException {
 
         List<Usuario> usuariosComp = obtenerUsuarios();
 
@@ -63,8 +63,11 @@ public class UsuarioDAO {
         boolean admin=false;
 
         for (Usuario usu1 : usuariosComp){
-            if (usu1.getNombre().equals(usuario.getNombre()) && usu1.getContrasenia().equals(usuario.getContrasenia())){
-                encontrado = true;
+            if (usu1.getNombre().equals(usuario.getNombre())){
+                if (usu1.getContrasenia().equals(usuario.getContrasenia())){
+                    encontrado = true;
+                    break;
+                }
             }
         }
         if (encontrado){
@@ -72,7 +75,13 @@ public class UsuarioDAO {
                 admin=true;
             }
         }
-        return admin;
+        if (!encontrado){
+            return 0;
+        } else if (!admin) {
+            return 1;
+        } else {
+            return 2;
+        }
     }
 
     public List<Usuario> obtenerUsuarios() throws SQLException {
