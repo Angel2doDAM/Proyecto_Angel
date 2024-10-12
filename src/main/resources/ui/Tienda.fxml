@@ -11,6 +11,8 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
+<!--Diseño de la página de la Tienda para los usuarios-->
+
 <AnchorPane fx:id="TiendaFondo" prefHeight="488.0" prefWidth="794.0" style="-fx-background-color: #039765;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.proyecto_angel.Controller.TiendaController">
    <children>
       <TableView fx:id="TableCubo" layoutX="29.0" layoutY="29.0" prefHeight="329.0" prefWidth="398.0" style="-fx-background-color: #99E89D;">

@@ -20,6 +20,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+//Esta pestaña es la página donde un usuario normal puede comprar en la tienda
 public class TiendaController implements Initializable {
 
     @FXML
@@ -48,6 +49,7 @@ public class TiendaController implements Initializable {
 
     ArrayList<Cubo> cubosArray = null;
 
+//    Guardo las opciones del ComboBox
     private String[] cubos={"2x2 normal", "2x2 mirror", "3x3 normal", "3x3 mirror", "3x3 gear", "3x3 windmill", "2x2x3 normal", "2x2x3 banana", "piraminx", "megaminx"};
 
     private String compra = "Articulos a pagar:\n";
@@ -58,6 +60,7 @@ public class TiendaController implements Initializable {
 
     ObservableList<Cubo> data;
 
+//    En la funcion initialize conecto con la base de datos y meto los textos en el ComboBox
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
@@ -72,6 +75,7 @@ public class TiendaController implements Initializable {
         ChuseCubo.getItems().addAll(cubos);
     }
 
+//    Esta funcion carga la base de datos de los cubos en la tabla de la tienda
     public void cargarDatos() throws SQLException {
         cubosArray = tiendaDAO.obtenerCubos();
         ColumCubo.setCellValueFactory(new PropertyValueFactory<>("tipo"));
@@ -87,16 +91,20 @@ public class TiendaController implements Initializable {
         }
     }
 
+//    Al pulsar añadir
     public void OnAniadirClic(ActionEvent actionEvent) {
+//        Compruebo que el usuario selecciones un cubo a comprar
         if (ChuseCubo.getValue()==null){
             AlertUtils.mostrarError("Selecciona un cubo antes de añadirlo");
         } else {
+//            Compruebo si es el primer objeto añadido al carrito para determinar si poner o no una coma de separación al inicio
             if (primeraVez){
                 compra +=  ChuseCubo.getValue();
                 primeraVez = false;
             } else {
                 compra +=  ", " + ChuseCubo.getValue();
             }
+//            Dependiendo la opción elegida se suma un valor u otro al precio total
             switch (ChuseCubo.getValue().toString()){
                 case "2x2 normal":
                     totalPagar += 6.81;
@@ -129,13 +137,17 @@ public class TiendaController implements Initializable {
                     totalPagar += 12.99;
                     break;
             }
+//            Establezco el campo de texto con la información anterior
             TextoMostrar.setText(compra);
+//            Establezco el precio del carrito actual
             TotalActual.setText("Total actual: " +totalPagar + "€");
         }
 
     }
 
+//    Al pulsar comprar
     public void OnComprarClic(ActionEvent actionEvent) {
+//        Muestro un alert con la información recogida hasta el momento
         AlertUtils.mostrarAcierto("Gracias por su compra \nUn pago de " + totalPagar + "€ se añadirá a su cuenta \n" + compra);
         totalPagar = 0;
         ChuseCubo.setValue(null);
@@ -145,6 +157,7 @@ public class TiendaController implements Initializable {
         primeraVez=true;
     }
 
+//    Esta funcion no sale de la aplicación, solo va a la pestaña anterior
     public void OnSalirClic(ActionEvent actionEvent) throws IOException {
         ChangeStage.cambioEscena("hello-view.fxml", TiendaFondo);
     }

@@ -1,5 +1,6 @@
 package org.example.proyecto_angel.clases;
 
+//Clase para crear objetos usuario
 public class Usuario {
 
     private int Id;
@@ -15,6 +16,7 @@ public class Usuario {
         this.contrasenia = contrasenia;
     }
 
+//    Getter y setter de todas las variable
     public int getId() {
         return Id;
     }
@@ -39,6 +41,7 @@ public class Usuario {
         this.contrasenia = contrasenia;
     }
 
+//    Tostring para mostrar solo el nombre en la lista
     @Override
     public String toString() {
         return nombre;

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
 
+//Clase "R"
 public class R {
 
     public static InputStream getImage(String name) {

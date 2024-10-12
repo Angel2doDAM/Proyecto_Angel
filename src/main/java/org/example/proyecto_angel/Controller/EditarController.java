@@ -10,6 +10,7 @@ import org.example.proyecto_angel.util.AlertUtils;
 import org.example.proyecto_angel.util.ChangeStage;
 
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -17,6 +18,7 @@ import java.util.ResourceBundle;
 import static org.example.proyecto_angel.util.ChangeStage.cambioEscena;
 
 
+//Esta es la pestaña desde la cual los administradores editan nombre y/o contraseña de los usuarios
 public class EditarController {
 
 
@@ -35,6 +37,7 @@ public class EditarController {
     String nombreViejo;
     PrincipalController controller;
 
+//    Constructor en el que conecto con la base de datos
     public EditarController() {
         try {
             usuarioDAO.conectar();
@@ -49,6 +52,7 @@ public class EditarController {
         System.out.println(System.getProperty("user.home"));
     }
 
+//    Al dar al boton guardar
     @FXML
     public void OnGuardarClic(javafx.event.ActionEvent actionEvent) {
         try {
@@ -60,7 +64,7 @@ public class EditarController {
                 usu1.setNombre(usuarioText.getText());
                 usu1.setContrasenia(contraText.getText());
 
-                // Guardar el usuario en la base de datos
+                // Actualizo el usuario en la base de datos
                 usuarioDAO.actualizarUsuario(usu1.getNombre(), usu1.getContrasenia(), nombreViejo);
                 AlertUtils.mostrarAcierto("El usuario ha sido actualizado correctamente");
                 controller.cargarDatos();
@@ -73,17 +77,20 @@ public class EditarController {
         }
     }
 
+//    Vacía los campos de texto
     @FXML
     public void OnLimpiarClic(javafx.event.ActionEvent actionEvent) throws SQLException {
         usuarioText.setText("");
         contraText.setText("");
     }
 
+//    Este botón no sale de la aplicación, solo va a la pestaña anterior
     @FXML
     void OnSalirClic(javafx.event.ActionEvent actionEvent) throws SQLException {
         ChangeStage.cerrarEscena(Fondo_Editar);
     }
 
+//    Función creada para cargar los datos anteriormente seleccionados enlos campos de texto
     @FXML
     public void cargarDatos(Usuario usu1, PrincipalController controller){
         usuarioText.setText(usu1.getNombre());

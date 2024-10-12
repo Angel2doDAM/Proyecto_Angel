@@ -102,12 +102,14 @@ public class HelloController {
         }
     }
 
+//    Función para vaciar los campos
     @FXML
     public void OnLimpiarClic(javafx.event.ActionEvent actionEvent) throws SQLException {
         usuarioText.setText("");
         contraText.setText("");
     }
 
+//    Salir de la aplicación
     @FXML
     void OnSalirClic(javafx.event.ActionEvent actionEvent) throws SQLException {
         System.exit(0);

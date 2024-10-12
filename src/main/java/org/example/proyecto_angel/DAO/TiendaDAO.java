@@ -10,10 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+//Clase para conectar y editar la base de datos de los usuarios
 public class TiendaDAO {
 
     private Connection conexion;
 
+//    Funcion para conectar con la base de datos
     public void conectar() throws ClassNotFoundException, SQLException, IOException {
         Properties configuration = new Properties();
         configuration.load(R.getProperties("database.properties"));
@@ -28,10 +30,12 @@ public class TiendaDAO {
                 username, password);
     }
 
+//    Funcion para desconestar
     public void desconectar() throws SQLException {
         conexion.close();
     }
 
+//    Función para recorrer la tabla de Cubos y almacenarlos todos en un arraylist
     public ArrayList<Cubo> obtenerCubos() throws SQLException {
 
         ArrayList<Cubo> cubos = new ArrayList<>();

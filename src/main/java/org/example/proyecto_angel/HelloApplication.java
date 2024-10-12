@@ -8,6 +8,7 @@ import org.example.proyecto_angel.util.R;
 
 import java.io.IOException;
 
+//Esta es la única clase que se ejecuta
 public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {

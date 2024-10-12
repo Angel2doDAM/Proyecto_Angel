@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+//Esta es la pestaña a la que solo se puede acceder si eres administrador
 public class PrincipalController implements Initializable {
 
     public AnchorPane PrincipalFondo;
@@ -34,10 +35,13 @@ public class PrincipalController implements Initializable {
 
     public void OnEditarClic(ActionEvent actionEvent) throws IOException, SQLException {
 
+//        Compruebo que seleccione un usuario de la lista
         if (usu1 == null) {
             AlertUtils.mostrarError("EY tio, tienes que seleccionar el nombre de usuario");
         } else {
+//            Abre el fxml de edicion de usuarios
             editarController = ChangeStage.crearEscena("EditarUsuarios.fxml");
+//            Carga los adtos del usuario en los campos del fxml de edicion
             editarController.cargarDatos(usu1, this);
         }
 
@@ -45,9 +49,11 @@ public class PrincipalController implements Initializable {
 
     public void OnEliminarClic(ActionEvent actionEvent) throws SQLException {
 
+//        Compruebo si se ha seleccionado un usuario
         if (usu1 == null) {
             AlertUtils.mostrarError("EY tio, tienes que seleccionar el nombre de usuario");
         } else {
+//            Se elimina de la base de datos si hay un usuario con ese nombre
             usuarioDAO.eliminarUsuario(usu1.getNombre());
 
             try {
@@ -59,19 +65,24 @@ public class PrincipalController implements Initializable {
 
     }
 
+//    Funcion para cargar los datos en la lista
     public void cargarDatos() throws SQLException {
         usuarios = usuarioDAO.obtenerUsuarios();
         LaTabla.setItems(FXCollections.observableList(usuarios));
     }
 
+//    Esta funcion no sale de la aplicación, solo va a la pantalla anetrior
     public void OnSalirClic(ActionEvent actionEvent) throws IOException {
         ChangeStage.cambioEscena("hello-view.fxml", PrincipalFondo);
     }
 
+//    Recojo el usuario seleccionado de la lista pulsando con el ratón
     public void OnMauseClic(MouseEvent mouseEvent) {
         usu1 = (Usuario) LaTabla.getSelectionModel().getSelectedItem();
     }
 
+//    Funcion que conecta con la base de datos
+//    y guarda los usuarios en una lista
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 

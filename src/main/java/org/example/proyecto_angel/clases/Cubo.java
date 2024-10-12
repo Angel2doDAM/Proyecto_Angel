@@ -1,5 +1,6 @@
 package org.example.proyecto_angel.clases;
 
+//Clase para crear objetos cubo
 public class Cubo {
 
     private int ID;
@@ -7,9 +8,11 @@ public class Cubo {
     private String modelo;
     private double precio;
 
+//    Constructor vacío
     public Cubo() {
     }
 
+//    Constructor con todas las variables
     public Cubo(String tipo, String modelo, double precio) {
         this.ID = ID;
         this.tipo = tipo;
@@ -17,6 +20,7 @@ public class Cubo {
         this.precio = precio;
     }
 
+//    Getter y setter de todas las variable
     public int getID() {
         return ID;
     }
